@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/api', routes)
 
 const connectDb = async () => {
-    const connection = await mongoose.connect('mongodb+srv://dan:dan@studentzendashboard.gjd8l.mongodb.net/?retryWrites=true&w=majority')
+    const connection = await mongoose.connect('mongodb+srv://kvgopikabalagopal:mitju8-fiJnun-ryqpyt@gopika.glzahb7.mongodb.net/')
     return connection
 }
 
