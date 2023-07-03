@@ -21,10 +21,7 @@ router.post("/signup", async (req, res) => {
     });
     await user.save();
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, "student");
-
-    res.json({ message: "User created successfully", user: { token, username, email } });
+    res.json({ message: "User created successfully", user: { username, email, _id: user._id } });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -47,8 +44,6 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, "student");
 
     res.json({ message: "User authenticated successfully", user });
   } catch (error) {
@@ -57,7 +52,28 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-// Complete class
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { id , password } = req.body;
+
+    // Check if user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's password
+    user.password = password;
+    await user.save();
+
+    res.json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 // Complete class
 router.post("/classes/complete", async (req, res) => {
   try {
